@@ -17,18 +17,39 @@
 #
 # 1. Remove GRADLE_HOME/bin from your PATH if it's already present.
 #
-#    which gradle # should return empty when finished
+#    $ which gradle # should return empty when finished
 #
 # 2. Symlink find-gradle somewhere on your path as 'gradle', e.g.:
 #
-#    ln -s $PWD/find-gradle /usr/local/bin/gradle
+#    $ ln -s $PWD/find-gradle /usr/local/bin/gradle
 #
 #
 # USAGE
 #
 # Use exactly like you would a normal Gradle executable. All arguments
 # passed to this script are passed directly to the gradle(w) executable.
-# This script returns whatever is returned by the underlying gradle(w).
+# The script exits with the same code returned by that invocation.
+#
+#     $ gradle [options]
+#
+#
+# DEBUGGING
+#
+# To observe the search for gradlew and to ensure which one is
+# ultimately used, invoke the script with Bash's "-x" option. Below you
+# can see the directory traversal at work, finally selecting the
+# 'gradlew' script one directory up from where 'gradle' was invoked.
+#
+#     $ cd /Work/spring-framework/spring-context
+#     $ bash -x $(which gradle) --version
+#     + GRADLEW=/Work/spring-framework/spring-context/gradlew
+#     + GRADLEW=/Work/spring-framework/gradlew
+#     + /Work/spring-framework/gradlew --version
+#
+#     ------------------------------------------------------------
+#     Gradle 1.0-milestone-8-20120112000036+0100
+#     ------------------------------------------------------------
+#     ...
 #
 #
 # AUTHOR
