@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# PURPOSE
+#
+# The Gradle wrapper[1] is a simple and convenient way of making Gradle
+# builds self-contained and reproducible. However, in multi-project
+# builds, it can be cumbersome to type in relative paths e.g.:
+#   ./gradlew   # when in root
+#   ../gradlew  # when in subdir
+#
+# This script finds any Gradle wrapper (gradlew) executable in the
+# current directory or any directory above it. If none can be found,
+# it will fall back to the system-wide installation at $SYSTEM_GRADLE.
+#
+#
+# INSTALLATION
+#
+# 1. Remove GRADLE_HOME/bin from your PATH if it's already present.
+#
+#    which gradle # should return empty when finished
+#
+# 2. Symlink find-gradle somewhere on your path as 'gradle', e.g.:
+#
+#    ln -s $PWD/find-gradle /usr/local/bin/gradle
+#
+#
+# USAGE
+#
+# Use exactly like you would a normal Gradle executable. All arguments
+# passed to this script are passed directly to the gradle(w) executable.
+# This script returns whatever is returned by the underlying gradle(w).
+#
+#
+# AUTHOR
+#
+# Chris Beams (http://twitter.com/cbeams)
+#
+#
+# BUGS
+#
+# It doesn't look for 'gradlew' in the root directory. Why would you
+# want it to? Improvements welcome at http://github.com/cbeams/shell-scripts.
+#
+# [1] http://gradle.org/docs/current/userguide/gradle_wrapper.html
+
+
+SYSTEM_GRADLE=/opt/gradle/current/bin/gradle
+
+CWD=$PWD
+until [ $CWD == / ]; do
+    GRADLEW=$CWD/gradlew
+    if [ -e $GRADLEW ]; then
+        $GRADLEW $@
+        exit $?
+    fi
+    CWD=$(dirname $CWD)
+done
+
+echo No Gradle wrapper found, using $SYSTEM_GRADLE
+$SYSTEM_GRADLE $@
+exit $?
