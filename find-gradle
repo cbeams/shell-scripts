@@ -27,8 +27,7 @@
 # USAGE
 #
 # Use exactly like you would a normal Gradle executable. All arguments
-# passed to this script are passed directly to the gradle(w) executable.
-# The script exits with the same code returned by that invocation.
+# supplied are `exec`d against the gradle(w) executable once found.
 #
 #     $ gradle [options]
 #
