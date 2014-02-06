@@ -76,4 +76,4 @@ until [ $CWD == / ]; do
 done
 
 echo No Gradle wrapper found, using $SYSTEM_GRADLE
-exec $SYSTEM_GRADLE $@
+exec $SYSTEM_GRADLE "$@"
